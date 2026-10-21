@@ -1,0 +1,23 @@
+meta {
+  name: Запрос 3: сводка по исполнителям
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/api/analytics/assignees-summary
+  body: none
+  auth: inherit
+}
+
+tests {
+  test("HTTP 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  test("исполнителей не меньше трёх", function() {
+    expect(res.getBody().length).to.be.at.least(3);
+  });
+  test("список проектов исполнителя", function() {
+    res.getBody().forEach(a => expect(a.projects).to.be.an('array'));
+  });
+}

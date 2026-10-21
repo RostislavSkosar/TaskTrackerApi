@@ -1,0 +1,20 @@
+meta {
+  name: Удаление проекта с задачами -> 400
+  type: http
+  seq: 11
+}
+
+delete {
+  url: {{baseUrl}}/api/projects/1
+  body: none
+  auth: inherit
+}
+
+tests {
+  test("HTTP 400", function() {
+    expect(res.getStatus()).to.equal(400);
+  });
+  test("причина: содержит задачи", function() {
+    expect(res.getBody().message).to.include('содержит задач');
+  });
+}

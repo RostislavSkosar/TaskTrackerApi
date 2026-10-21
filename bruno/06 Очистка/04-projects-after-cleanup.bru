@@ -1,0 +1,20 @@
+meta {
+  name: Список проектов после очистки
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/api/projects
+  body: none
+  auth: inherit
+}
+
+tests {
+  test("HTTP 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  test("CRM удалён", function() {
+    expect(res.getBody().map(p => p.code)).to.not.include('CRM');
+  });
+}

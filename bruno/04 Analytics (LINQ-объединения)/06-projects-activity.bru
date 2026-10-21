@@ -1,0 +1,20 @@
+meta {
+  name: Запрос 5: активность обсуждения проектов
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{baseUrl}}/api/analytics/projects-activity
+  body: none
+  auth: inherit
+}
+
+tests {
+  test("HTTP 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  test("есть дата последней активности", function() {
+    res.getBody().forEach(p => expect(p.lastActivityUtc).to.be.a('string'));
+  });
+}

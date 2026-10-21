@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "TaskTrackerApi - лабораторная (Скосарь Р.А., АС-23-04)",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

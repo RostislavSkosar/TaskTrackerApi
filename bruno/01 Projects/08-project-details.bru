@@ -1,0 +1,23 @@
+meta {
+  name: Карточка проекта: проект+задачи+комментарии
+  type: http
+  seq: 8
+}
+
+get {
+  url: {{baseUrl}}/api/projects/1/details
+  body: none
+  auth: inherit
+}
+
+tests {
+  test("HTTP 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  test("есть задачи", function() {
+    expect(res.getBody().tasks.length).to.be.at.least(1);
+  });
+  test("у задач есть комментарии-массив", function() {
+    expect(res.getBody().tasks[0].comments).to.be.an('array');
+  });
+}

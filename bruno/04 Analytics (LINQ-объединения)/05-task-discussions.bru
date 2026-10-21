@@ -1,0 +1,23 @@
+meta {
+  name: Запрос 4: самые обсуждаемые задачи
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/api/analytics/task-discussions?take=3
+  body: none
+  auth: inherit
+}
+
+tests {
+  test("HTTP 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  test("не больше трёх", function() {
+    expect(res.getBody().length).to.be.at.most(3);
+  });
+  test("есть участники", function() {
+    res.getBody().forEach(t => expect(t.participants.length).to.be.at.least(1));
+  });
+}

@@ -1,0 +1,24 @@
+meta {
+  name: Изменить срок проекта
+  type: http
+  seq: 5
+}
+
+put {
+  url: {{baseUrl}}/api/projects/{{createdProjectId}}/deadline
+  body: json
+  auth: inherit
+}
+
+body:json {
+  "2027-02-01T00:00:00Z"
+}
+
+tests {
+  test("HTTP 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  test("срок обновлён", function() {
+    expect(res.getBody().deadlineUtc).to.be.a('string');
+  });
+}

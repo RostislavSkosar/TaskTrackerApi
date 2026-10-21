@@ -1,0 +1,20 @@
+meta {
+  name: Назначить исполнителя задаче 4
+  type: http
+  seq: 6
+}
+
+put {
+  url: {{baseUrl}}/api/tasks/4/assignee?assignee=%D0%98%D0%B3%D0%BE%D1%80%D1%8C%20%D0%9F.
+  body: none
+  auth: inherit
+}
+
+tests {
+  test("HTTP 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  test("исполнитель назначен", function() {
+    expect(res.getBody().assignee).to.equal('Игорь П.');
+  });
+}

@@ -1,0 +1,26 @@
+meta {
+  name: Перенос срока в прошлое -> 400
+  type: http
+  seq: 10
+}
+
+put {
+  url: {{baseUrl}}/api/tasks/1/reschedule
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "dueDateUtc": "2020-05-05T00:00:00Z"
+  }
+}
+
+tests {
+  test("HTTP 400", function() {
+    expect(res.getStatus()).to.equal(400);
+  });
+  test("причина: срок в прошлом", function() {
+    expect(res.getBody().detail).to.include('не может быть в прошлом');
+  });
+}

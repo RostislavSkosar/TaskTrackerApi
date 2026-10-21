@@ -1,0 +1,27 @@
+meta {
+  name: Списание 60 ч за раз -> 400 (Range)
+  type: http
+  seq: 8
+}
+
+post {
+  url: {{baseUrl}}/api/tasks/3/work
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "hours": 60,
+    "note": "слишком много"
+  }
+}
+
+tests {
+  test("HTTP 400", function() {
+    expect(res.getStatus()).to.equal(400);
+  });
+  test("ошибка валидации Hours", function() {
+    expect(JSON.stringify(res.getBody())).to.include('Hours');
+  });
+}

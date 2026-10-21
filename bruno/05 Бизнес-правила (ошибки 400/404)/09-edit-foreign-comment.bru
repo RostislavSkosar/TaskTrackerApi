@@ -1,0 +1,27 @@
+meta {
+  name: Правка чужого комментария -> 400
+  type: http
+  seq: 9
+}
+
+put {
+  url: {{baseUrl}}/api/comments/1
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "editor": "Игорь П.",
+    "text": "Чужой комментарий"
+  }
+}
+
+tests {
+  test("HTTP 400", function() {
+    expect(res.getStatus()).to.equal(400);
+  });
+  test("причина: только автор", function() {
+    expect(res.getBody().detail).to.include('только его автор');
+  });
+}

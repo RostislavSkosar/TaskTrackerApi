@@ -1,0 +1,100 @@
+### Примеры запросов к TaskTrackerApi (базовый адрес из launchSettings: http://localhost:5080)
+
+### Список проектов (LINQ Where + Select)
+GET http://localhost:5080/api/projects
+
+### Проект с расчётными показателями
+GET http://localhost:5080/api/projects/1
+
+### Создание проекта
+POST http://localhost:5080/api/projects
+Content-Type: application/json
+
+{
+  "name": "Портал университета",
+  "code": "UNI",
+  "description": "Личный кабинет студента",
+  "priority": "Medium",
+  "deadlineUtc": "2027-01-16T00:00:00Z"
+}
+
+### Обновление проекта
+PUT http://localhost:5080/api/projects/4
+Content-Type: application/json
+
+{ "name": "Портал университета v2", "priority": "High" }
+
+### Удаление проекта (разрешено только для архивированного/пустого)
+DELETE http://localhost:5080/api/projects/2
+
+### Задачи проекта, только просроченные
+GET http://localhost:5080/api/tasks?projectId=1&overdueOnly=true
+
+### Создание задачи в проекте
+POST http://localhost:5080/api/tasks?projectId=1
+Content-Type: application/json
+
+{
+  "title": "Кеширование каталога",
+  "description": "Redis",
+  "priority": "Medium",
+  "assignee": "Скосарь Р.А.",
+  "dueDateUtc": "2026-10-30T00:00:00Z"
+}
+
+### Смена статуса (с проверкой допустимых переходов)
+PUT http://localhost:5080/api/tasks/4/status
+Content-Type: application/json
+
+{ "status": "InProgress" }
+
+### Назначение исполнителя
+PUT http://localhost:5080/api/tasks/4/assignee?assignee=Игорь П.
+
+### Списание трудозатрат
+POST http://localhost:5080/api/tasks/3/work
+Content-Type: application/json
+
+{ "hours": 2.5, "note": "вёрстка" }
+
+### Перенос срока задачи
+PUT http://localhost:5080/api/tasks/3/reschedule
+Content-Type: application/json
+
+{ "dueDateUtc": "2026-11-20T00:00:00Z", "reason": "перенос спринта" }
+
+### Доска исполнителя по всем проектам (join в синтаксисе запросов LINQ)
+GET http://localhost:5080/api/tasks/my-board?assignee=Скосарь
+
+### Комментарии задачи
+GET http://localhost:5080/api/comments?taskId=1
+
+### Создание комментария
+POST http://localhost:5080/api/comments?taskId=2
+Content-Type: application/json
+
+{ "author": "Мария Д.", "text": "Добавила макеты экрана корзины" }
+
+### Редактирование комментария (только автор, окно 24 ч)
+PUT http://localhost:5080/api/comments/1
+Content-Type: application/json
+
+{ "editor": "Алёна К.", "text": "Уточнение: пагинация курсорная" }
+
+### ЗАПРОС 1: статистика по проектам (GroupBy по статусам задач)
+GET http://localhost:5080/api/analytics/projects-statistics
+
+### ЗАПРОС 2: просроченные задачи + проект + комментарии
+GET http://localhost:5080/api/analytics/overdue-tasks
+
+### ЗАПРОС 3: сводка по исполнителям поверх всех проектов
+GET http://localhost:5080/api/analytics/assignees-summary
+
+### ЗАПРОС 4: самые обсуждаемые задачи и участники
+GET http://localhost:5080/api/analytics/task-discussions?take=3
+
+### ЗАПРОС 5: активность обсуждения проектов
+GET http://localhost:5080/api/analytics/projects-activity
+
+### Полная карточка проекта: проект + задачи + комментарии
+GET http://localhost:5080/api/projects/1/details

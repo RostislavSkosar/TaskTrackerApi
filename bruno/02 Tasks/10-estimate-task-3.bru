@@ -1,0 +1,26 @@
+meta {
+  name: Оценка трудоёмкости задачи 3
+  type: http
+  seq: 10
+}
+
+put {
+  url: {{baseUrl}}/api/tasks/3/estimate
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "hours": 20
+  }
+}
+
+tests {
+  test("HTTP 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  test("оценка 20", function() {
+    expect(res.getBody().estimatedHours).to.equal(20);
+  });
+}

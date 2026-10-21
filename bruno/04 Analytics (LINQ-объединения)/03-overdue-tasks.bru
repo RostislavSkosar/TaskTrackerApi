@@ -1,0 +1,23 @@
+meta {
+  name: Запрос 2: просроченные задачи + проект + комментарии
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/api/analytics/overdue-tasks
+  body: none
+  auth: inherit
+}
+
+tests {
+  test("HTTP 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  test("есть код проекта", function() {
+    res.getBody().forEach(t => expect(t.projectCode).to.be.a('string'));
+  });
+  test("есть число комментариев", function() {
+    res.getBody().forEach(t => expect(t.commentsCount).to.be.a('number'));
+  });
+}

@@ -1,0 +1,26 @@
+meta {
+  name: Закрытие минуя Review -> 400
+  type: http
+  seq: 6
+}
+
+put {
+  url: {{baseUrl}}/api/tasks/1/status
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "status": "Done"
+  }
+}
+
+tests {
+  test("HTTP 400", function() {
+    expect(res.getStatus()).to.equal(400);
+  });
+  test("причина: только из Review", function() {
+    expect(res.getBody().detail).to.include('только из статуса Review');
+  });
+}

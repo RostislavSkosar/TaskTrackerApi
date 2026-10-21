@@ -1,0 +1,26 @@
+meta {
+  name: Задача 4: на проверку
+  type: http
+  seq: 8
+}
+
+put {
+  url: {{baseUrl}}/api/tasks/4/status
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "status": "Review"
+  }
+}
+
+tests {
+  test("HTTP 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  test("статус Review", function() {
+    expect(res.getBody().status).to.equal('Review');
+  });
+}

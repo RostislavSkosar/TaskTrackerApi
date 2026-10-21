@@ -1,0 +1,27 @@
+meta {
+  name: Списать 2.5 ч на задачу 3
+  type: http
+  seq: 11
+}
+
+post {
+  url: {{baseUrl}}/api/tasks/3/work
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "hours": 2.5,
+    "note": "вёрстка"
+  }
+}
+
+tests {
+  test("HTTP 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  test("списано 2.5", function() {
+    expect(res.getBody().spentHours).to.equal(2.5);
+  });
+}

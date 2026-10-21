@@ -1,0 +1,27 @@
+meta {
+  name: Дубликат названия задачи в проекте -> 400
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/api/tasks?projectId=1
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "title": "REST API каталога товаров",
+    "priority": "Low"
+  }
+}
+
+tests {
+  test("HTTP 400", function() {
+    expect(res.getStatus()).to.equal(400);
+  });
+  test("причина: задача уже есть", function() {
+    expect(res.getBody().detail).to.include('уже есть в проекте');
+  });
+}

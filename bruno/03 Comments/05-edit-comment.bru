@@ -1,0 +1,27 @@
+meta {
+  name: Автор правит свой комментарий
+  type: http
+  seq: 5
+}
+
+put {
+  url: {{baseUrl}}/api/comments/{{createdCommentId}}
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "editor": "Скосарь Р.А.",
+    "text": "@Игорь П. проверь интеграцию с оплатой (срочно)"
+  }
+}
+
+tests {
+  test("HTTP 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  test("помечен как изменённый", function() {
+    expect(res.getBody().editedAtUtc).to.not.equal(null);
+  });
+}

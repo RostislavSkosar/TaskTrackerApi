@@ -1,0 +1,20 @@
+meta {
+  name: Запрос 1б: только активные проекты
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/analytics/projects-statistics?onlyActive=true
+  body: none
+  auth: inherit
+}
+
+tests {
+  test("HTTP 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  test("все активные", function() {
+    res.getBody().forEach(p => expect(p.status).to.equal('Active'));
+  });
+}

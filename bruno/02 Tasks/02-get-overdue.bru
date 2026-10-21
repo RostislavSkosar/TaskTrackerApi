@@ -1,0 +1,20 @@
+meta {
+  name: Только просроченные задачи
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/tasks?overdueOnly=true
+  body: none
+  auth: inherit
+}
+
+tests {
+  test("HTTP 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  test("все просроченные", function() {
+    res.getBody().forEach(t => expect(t.isOverdue).to.equal(true));
+  });
+}

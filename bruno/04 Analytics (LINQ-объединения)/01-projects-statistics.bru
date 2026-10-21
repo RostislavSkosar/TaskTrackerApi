@@ -1,0 +1,23 @@
+meta {
+  name: Запрос 1: статистика проектов (GroupBy)
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/analytics/projects-statistics
+  body: none
+  auth: inherit
+}
+
+tests {
+  test("HTTP 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  test("проектов не меньше трёх", function() {
+    expect(res.getBody().length).to.be.at.least(3);
+  });
+  test("есть разбивка по статусам", function() {
+    expect(res.getBody()[0].byStatus).to.be.an('array');
+  });
+}

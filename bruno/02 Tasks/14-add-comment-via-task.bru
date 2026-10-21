@@ -1,0 +1,31 @@
+meta {
+  name: Комментарий через задачу 1 (201)
+  type: http
+  seq: 14
+}
+
+post {
+  url: {{baseUrl}}/api/tasks/1/comments
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "author": "Скосарь Р.А.",
+    "text": "@Игорь П. проверь интеграцию с оплатой"
+  }
+}
+
+script:post-response {
+  bru.setVar('createdCommentId', res.getBody().id);
+}
+
+tests {
+  test("HTTP 201", function() {
+    expect(res.getStatus()).to.equal(201);
+  });
+  test("упоминание распознано", function() {
+    expect(res.getBody().mentionedUsers.length).to.be.at.least(1);
+  });
+}

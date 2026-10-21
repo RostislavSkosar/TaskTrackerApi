@@ -1,0 +1,37 @@
+meta {
+  name: Создать проект (201)
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/api/projects
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name": "Портал университета",
+    "code": "UNI",
+    "description": "Личный кабинет студента",
+    "priority": "Medium",
+    "deadlineUtc": "2027-01-16T00:00:00Z"
+  }
+}
+
+script:post-response {
+  bru.setVar('createdProjectId', res.getBody().id);
+}
+
+tests {
+  test("HTTP 201", function() {
+    expect(res.getStatus()).to.equal(201);
+  });
+  test("код UNI", function() {
+    expect(res.getBody().code).to.equal('UNI');
+  });
+  test("Id сохранён в переменную коллекции", function() {
+    expect(res.getBody().id).to.be.a('number');
+  });
+}

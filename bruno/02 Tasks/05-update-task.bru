@@ -1,0 +1,27 @@
+meta {
+  name: Обновить созданную задачу
+  type: http
+  seq: 5
+}
+
+put {
+  url: {{baseUrl}}/api/tasks/{{createdTaskId}}
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "description": "Redis cluster + TTL",
+    "priority": "High"
+  }
+}
+
+tests {
+  test("HTTP 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  test("описание обновлено", function() {
+    expect(res.getBody().description).to.equal('Redis cluster + TTL');
+  });
+}

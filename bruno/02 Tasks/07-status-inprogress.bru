@@ -1,0 +1,29 @@
+meta {
+  name: Задача 4: в работу
+  type: http
+  seq: 7
+}
+
+put {
+  url: {{baseUrl}}/api/tasks/4/status
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "status": "InProgress"
+  }
+}
+
+tests {
+  test("HTTP 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  test("статус InProgress", function() {
+    expect(res.getBody().status).to.equal('InProgress');
+  });
+  test("прогресс 50", function() {
+    expect(res.getBody().progress).to.equal(50);
+  });
+}

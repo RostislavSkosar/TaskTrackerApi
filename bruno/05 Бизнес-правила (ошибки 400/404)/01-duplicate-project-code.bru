@@ -1,0 +1,28 @@
+meta {
+  name: Дубликат кода проекта -> 400
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/projects
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name": "Портал университета",
+    "code": "uni",
+    "priority": "Medium"
+  }
+}
+
+tests {
+  test("HTTP 400", function() {
+    expect(res.getStatus()).to.equal(400);
+  });
+  test("текст причины в ответе", function() {
+    expect(res.getBody().message).to.include('уже существует');
+  });
+}

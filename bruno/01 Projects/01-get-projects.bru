@@ -1,0 +1,23 @@
+meta {
+  name: Список проектов (LINQ Where+Select)
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/projects
+  body: none
+  auth: inherit
+}
+
+tests {
+  test("HTTP 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  test("проектов не меньше трёх", function() {
+    expect(res.getBody().length).to.be.at.least(3);
+  });
+  test("у каждого проекта есть код", function() {
+    res.getBody().forEach(p => expect(p.code).to.be.a('string'));
+  });
+}

@@ -1,0 +1,29 @@
+meta {
+  name: Срок проекта в прошлом -> 400
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/api/projects
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name": "Проект с прошлым сроком",
+    "code": "OLD",
+    "priority": "Low",
+    "deadlineUtc": "2020-01-01T00:00:00Z"
+  }
+}
+
+tests {
+  test("HTTP 400", function() {
+    expect(res.getStatus()).to.equal(400);
+  });
+  test("причина: срок раньше создания", function() {
+    expect(res.getBody().detail).to.include('раньше даты его создания');
+  });
+}

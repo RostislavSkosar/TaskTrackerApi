@@ -1,0 +1,17 @@
+meta {
+  name: Удалить закрытую задачу 4 -> 204
+  type: http
+  seq: 3
+}
+
+delete {
+  url: {{baseUrl}}/api/tasks/4
+  body: none
+  auth: inherit
+}
+
+tests {
+  test("HTTP 204", function() {
+    expect(res.getStatus()).to.equal(204);
+  });
+}

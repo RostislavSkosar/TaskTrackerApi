@@ -1,0 +1,28 @@
+meta {
+  name: Код длиннее 8 символов -> 400 (валидация DTO)
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/projects
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name": "Портал университета",
+    "code": "PORTALDEV",
+    "priority": "Medium"
+  }
+}
+
+tests {
+  test("HTTP 400", function() {
+    expect(res.getStatus()).to.equal(400);
+  });
+  test("ошибка валидации поля Code", function() {
+    expect(JSON.stringify(res.getBody())).to.include('Code');
+  });
+}

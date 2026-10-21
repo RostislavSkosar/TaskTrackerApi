@@ -1,0 +1,26 @@
+meta {
+  name: Старт задачи без исполнителя -> 400
+  type: http
+  seq: 5
+}
+
+put {
+  url: {{baseUrl}}/api/tasks/11/status
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "status": "InProgress"
+  }
+}
+
+tests {
+  test("HTTP 400", function() {
+    expect(res.getStatus()).to.equal(400);
+  });
+  test("причина: нет исполнителя", function() {
+    expect(res.getBody().detail).to.include('без исполнителя');
+  });
+}

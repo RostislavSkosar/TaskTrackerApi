@@ -1,0 +1,29 @@
+meta {
+  name: Задача 4: закрыть
+  type: http
+  seq: 9
+}
+
+put {
+  url: {{baseUrl}}/api/tasks/4/status
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "status": "Done"
+  }
+}
+
+tests {
+  test("HTTP 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  test("статус Done", function() {
+    expect(res.getBody().status).to.equal('Done');
+  });
+  test("прогресс 100", function() {
+    expect(res.getBody().progress).to.equal(100);
+  });
+}

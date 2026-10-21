@@ -1,0 +1,23 @@
+meta {
+  name: Задачи проекта 1
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/tasks?projectId=1
+  body: none
+  auth: inherit
+}
+
+tests {
+  test("HTTP 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+  test("задач не меньше пяти", function() {
+    expect(res.getBody().length).to.be.at.least(5);
+  });
+  test("все задачи проекта 1", function() {
+    res.getBody().forEach(t => expect(t.projectId).to.equal(1));
+  });
+}

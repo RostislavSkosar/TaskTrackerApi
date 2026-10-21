@@ -1,0 +1,27 @@
+meta {
+  name: Списание времени на закрытую задачу -> 400
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{baseUrl}}/api/tasks/4/work
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "hours": 3,
+    "note": "реализация"
+  }
+}
+
+tests {
+  test("HTTP 400", function() {
+    expect(res.getStatus()).to.equal(400);
+  });
+  test("причина: задача закрыта", function() {
+    expect(res.getBody().detail).to.include('закрыта');
+  });
+}
